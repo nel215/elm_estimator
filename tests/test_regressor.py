@@ -6,6 +6,10 @@ from sklearn.preprocessing import StandardScaler
 from elm_estimator import ELMRegressor
 
 
+def test_hidden_types():
+    assert ELMRegressor.hidden_types == ['sigmoid', 'gaussian']
+
+
 def test_boston():
     np.random.seed(0)
     data, target = load_boston(True)

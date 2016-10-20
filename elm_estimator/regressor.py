@@ -1,10 +1,12 @@
 # coding:utf-8
 import numpy as np
 from sklearn.base import BaseEstimator, RegressorMixin
-from .function import sigmoid
+from .function import sigmoid, gaussian
 
 
 class ELMRegressor(BaseEstimator, RegressorMixin):
+    hidden_types = ['sigmoid', 'gaussian']
+
     def __init__(self, n_hidden=2000, hidden_type='sigmoid'):
         self.n_hidden = n_hidden
         self.a = None
@@ -15,6 +17,8 @@ class ELMRegressor(BaseEstimator, RegressorMixin):
     def _forward(self, X):
         if self.hidden_type == 'sigmoid':
             return sigmoid(X, self.a, self.b)
+        if self.hidden_type == 'gaussian':
+            return gaussian(X, self.a, self.b)
 
     def fit(self, X, y):
         n, d = X.shape

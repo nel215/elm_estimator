@@ -13,6 +13,7 @@ class ELMRegressor(BaseEstimator, RegressorMixin):
         self.b = None
         self.beta = None
         self.hidden_type = hidden_type
+        self.single_output = False
 
     def _forward(self, X):
         if self.hidden_type == 'sigmoid':
@@ -21,6 +22,8 @@ class ELMRegressor(BaseEstimator, RegressorMixin):
             return gaussian(X, self.a, self.b)
 
     def fit(self, X, y):
+        if y.ndim == 1:
+            self.single_output = True
         n, d = X.shape
         self.a = np.random.randn(self.n_hidden, d)
         self.b = np.random.randn(self.n_hidden)
@@ -31,4 +34,7 @@ class ELMRegressor(BaseEstimator, RegressorMixin):
     def predict(self, X):
         n, d = X.shape
         h = self._forward(X)
-        return np.dot(h, self.beta).reshape(n)
+        res = np.dot(h, self.beta)
+        if self.single_output:
+            return res.reshape(n)
+        return res

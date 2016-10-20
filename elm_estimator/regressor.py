@@ -1,6 +1,7 @@
 # coding:utf-8
 import numpy as np
 from sklearn.base import BaseEstimator, RegressorMixin
+from .function import sigmoid
 
 
 class ELMRegressor(BaseEstimator, RegressorMixin):
@@ -10,19 +11,15 @@ class ELMRegressor(BaseEstimator, RegressorMixin):
         self.b = None
         self.beta = None
 
-    def _forward(self, X):
-        t = np.dot(self.a, X.T).T + self.b
-        return 1.0/(1.0 + np.exp(-t))
-
     def fit(self, X, y):
         n, d = X.shape
         self.a = np.random.randn(self.n_hidden, d)
         self.b = np.random.randn(self.n_hidden)
-        h = self._forward(X)
+        h = sigmoid(X, self.a, self.b)
         self.beta = np.dot(np.linalg.pinv(h), y)
         return self
 
     def predict(self, X):
         n, d = X.shape
-        h = self._forward(X)
+        h = sigmoid(X, self.a, self.b)
         return np.dot(h, self.beta).reshape(n)

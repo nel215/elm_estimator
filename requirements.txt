@@ -2,7 +2,7 @@ apipkg==1.4
 args==0.1.0
 clint==0.5.1
 execnet==1.4.1
-numpy==1.11.2
+numpy==1.21.0
 pep8==1.7.0
 pkginfo==1.4.1
 py==1.4.31
